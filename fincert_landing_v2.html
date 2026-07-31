@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinCert — Tutor CPA ANBIMA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  :root{
+    --navy:#0A0E1A;--midnight:#0D1220;--surface:#111828;
+    --border:#1E2640;--blue:#3A6BCC;--blue-light:#5585E8;
+    --emerald:#1DB87A;--pearl:#E8EDF5;--muted:#8090B0;--dim:#4A5570;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--navy);color:var(--pearl);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 6%;height:62px;background:rgba(10,14,26,.93);backdrop-filter:blur(12px);border-bottom:.5px solid var(--border)}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .logo-icon{width:32px;height:32px;border-radius:6px;background:#1A2540;display:flex;align-items:center;justify-content:center;position:relative}
+  .logo-icon svg{width:18px;height:18px}
+  .logo-check{position:absolute;bottom:-3px;right:-3px;width:14px;height:14px;border-radius:50%;background:var(--emerald);display:flex;align-items:center;justify-content:center;border:2px solid var(--navy)}
+  .logo-check svg{width:7px;height:7px}
+  .logo-text{font-size:17px;font-weight:700;color:var(--pearl)}
+  .logo-text span{color:var(--blue)}
+  .nav-cta{font-size:13px;font-weight:600;background:var(--blue);color:var(--pearl);padding:8px 20px;border-radius:8px;text-decoration:none;transition:background .15s}
+  .nav-cta:hover{background:var(--blue-light)}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 6% 80px}
+  .eyebrow{font-size:11px;font-weight:600;letter-spacing:2.5px;color:var(--blue);text-transform:uppercase;margin-bottom:20px}
+  .hero-title{font-size:clamp(34px,5.5vw,62px);font-weight:800;line-height:1.08;letter-spacing:-1.5px;max-width:740px;margin-bottom:22px}
+  .hero-title .hl{color:var(--blue)}
+  .hero-sub{font-size:clamp(15px,2vw,19px);color:var(--muted);max-width:560px;margin-bottom:44px;line-height:1.75}
+  .hero-sub strong{color:var(--pearl);font-weight:600}
+
+  /* BLOCO DOR */
+  .pain-block{background:var(--midnight);border:.5px solid var(--border);border-radius:16px;padding:32px 36px;max-width:640px;text-align:left;margin-bottom:44px;position:relative}
+  .pain-block::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--blue);border-radius:16px 16px 0 0}
+  .pain-line{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:6px}
+  .pain-line:last-child{margin-bottom:0}
+  .pain-conclusion{margin-top:20px;padding-top:20px;border-top:.5px solid var(--border);font-size:15px;font-weight:600;color:var(--pearl);line-height:1.6}
+
+  /* VSL */
+  .vsl-wrap{width:100%;max-width:780px;margin-bottom:12px}
+  .vsl-frame{position:relative;width:100%;aspect-ratio:16/9;background:var(--midnight);border:.5px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer}
+  .vsl-dots{position:absolute;inset:0;background-image:radial-gradient(circle,#1E2640 1px,transparent 1px);background-size:24px 24px;opacity:.4}
+  .vsl-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:rgba(10,14,26,.55);transition:background .2s}
+  .vsl-frame:hover .vsl-overlay{background:rgba(10,14,26,.4)}
+  .vsl-play{width:76px;height:76px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;transition:transform .2s,background .2s}
+  .vsl-frame:hover .vsl-play{transform:scale(1.08);background:var(--blue-light)}
+  .vsl-play svg{width:30px;height:30px;margin-left:5px}
+  .vsl-label{font-size:14px;font-weight:500;color:var(--muted)}
+  .vsl-duration{position:absolute;bottom:14px;right:16px;font-size:11px;color:var(--dim);background:rgba(10,14,26,.85);padding:3px 8px;border-radius:4px}
+  .vsl-note{font-size:13px;color:var(--dim);margin-bottom:44px}
+
+  /* BULLETS */
+  .bullets{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:0}
+  .bullet-item{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted)}
+  .bullet-dot{width:6px;height:6px;border-radius:50%;background:var(--emerald);flex-shrink:0}
+
+  /* SECTIONS */
+  section{padding:88px 6%;display:flex;flex-direction:column;align-items:center;border-top:.5px solid var(--border)}
+  section.alt{background:var(--midnight)}
+  .section-eyebrow{font-size:11px;font-weight:600;letter-spacing:2.5px;color:var(--blue);text-transform:uppercase;margin-bottom:12px}
+  .section-title{font-size:clamp(24px,3.5vw,38px);font-weight:700;text-align:center;margin-bottom:12px;line-height:1.2;max-width:640px}
+  .section-sub{font-size:16px;color:var(--muted);text-align:center;max-width:520px;margin-bottom:52px;line-height:1.75}
+  .section-sub strong{color:var(--pearl);font-weight:600}
+
+  /* PARA QUEM */
+  .forwhom-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;width:100%;max-width:780px}
+  .forwhom-card{background:var(--navy);border:.5px solid var(--border);border-radius:14px;padding:28px 24px;display:flex;flex-direction:column;gap:12px;transition:border-color .2s}
+  .forwhom-card:hover{border-color:#2A3A5A}
+  .fw-icon{width:40px;height:40px;border-radius:10px;background:#111828;display:flex;align-items:center;justify-content:center}
+  .fw-icon svg{width:20px;height:20px}
+  .fw-title{font-size:15px;font-weight:700;color:var(--pearl)}
+  .fw-desc{font-size:13px;color:var(--muted);line-height:1.7}
+
+  /* DEMO */
+  .demo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;width:100%;max-width:740px}
+  .demo-card{background:var(--navy);border:.5px solid var(--border);border-radius:16px;padding:32px 28px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:18px;transition:border-color .2s,transform .2s;position:relative;overflow:hidden}
+  .demo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+  .demo-card.tutor::before{background:var(--blue)}
+  .demo-card:hover{border-color:#2A3A5A;transform:translateY(-3px)}
+  .demo-card.tutor:hover{border-color:var(--blue)}
+  .demo-icon{width:48px;height:48px;border-radius:12px;background:rgba(58,107,204,.12);display:flex;align-items:center;justify-content:center}
+  .demo-icon svg{width:24px;height:24px}
+  .demo-card-title{font-size:19px;font-weight:700}
+  .demo-card-desc{font-size:13px;color:var(--muted);line-height:1.7;flex:1}
+  .demo-bonus{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--emerald);background:rgba(29,184,122,.1);padding:5px 10px;border-radius:6px;width:fit-content}
+  .demo-bonus svg{width:12px;height:12px}
+  .demo-cta{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--blue)}
+  .demo-cta svg{width:16px;height:16px;transition:transform .15s}
+  .demo-card:hover .demo-cta svg{transform:translateX(4px)}
+
+  /* JÁ TEM CURSO */
+  .already-box{background:var(--navy);border:.5px solid var(--border);border-left:3px solid var(--blue);border-radius:0 14px 14px 0;padding:36px 40px;max-width:680px;width:100%}
+  .already-title{font-size:20px;font-weight:700;margin-bottom:16px;color:var(--pearl)}
+  .already-text{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:16px}
+  .already-text strong{color:var(--pearl);font-weight:600}
+  .already-text:last-child{margin-bottom:0}
+
+  /* NÚMEROS */
+  .proof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;width:100%;max-width:720px;background:var(--border);border:.5px solid var(--border);border-radius:16px;overflow:hidden;margin-top:0}
+  .proof-item{background:var(--midnight);padding:32px 24px;display:flex;flex-direction:column;gap:6px}
+  .proof-num{font-size:36px;font-weight:800;letter-spacing:-1px;color:var(--pearl)}
+  .proof-num span{color:var(--blue)}
+  .proof-label{font-size:13px;color:var(--muted);line-height:1.5}
+
+  /* FINAL CTA */
+  .final-title{font-size:clamp(28px,4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-1px;text-align:center;margin-bottom:16px;max-width:600px}
+  .final-title .hl{color:var(--blue)}
+  .final-sub{font-size:16px;color:var(--muted);text-align:center;max-width:460px;margin-bottom:40px;line-height:1.75}
+  .btn-group{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .btn-primary{display:inline-flex;align-items:center;gap:9px;background:var(--blue);color:var(--pearl);font-size:16px;font-weight:600;padding:17px 38px;border-radius:10px;text-decoration:none;transition:background .15s,transform .15s}
+  .btn-primary:hover{background:var(--blue-light);transform:translateY(-2px)}
+  .btn-primary svg{width:18px;height:18px}
+  .final-note{font-size:12px;color:var(--dim);margin-top:20px;text-align:center;line-height:1.8}
+  .final-note strong{color:var(--muted)}
+
+  /* PRICE BAR */
+  .price-bar{display:flex;align-items:center;gap:14px;background:var(--midnight);border:.5px solid var(--border);border-radius:12px;padding:14px 28px;margin-bottom:44px;flex-wrap:wrap;justify-content:center}
+  .price-tag{font-size:24px;font-weight:800;color:var(--blue)}
+  .price-vs{color:var(--dim);font-size:12px}
+  .price-strike{font-size:16px;font-weight:600;color:var(--dim);text-decoration:line-through}
+  .price-note{font-size:12px;color:var(--muted)}
+
+  /* FOOTER */
+  footer{padding:28px 6%;border-top:.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .footer-brand{font-size:14px;font-weight:700;color:var(--pearl)}
+  .footer-brand span{color:var(--blue)}
+  .footer-note{font-size:12px;color:var(--dim)}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  .hero-title{animation:fadeUp .5s .05s ease both}
+  .hero-sub{animation:fadeUp .5s .15s ease both}
+  .pain-block{animation:fadeUp .5s .2s ease both}
+  .vsl-wrap{animation:fadeUp .5s .28s ease both}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+  @media(max-width:600px){
+    .demo-grid,.forwhom-grid{grid-template-columns:1fr}
+    .proof-grid{grid-template-columns:1fr 1fr}
+    .already-box{padding:24px 22px}
+    footer{flex-direction:column;text-align:center}
+    .price-bar{flex-direction:column;gap:6px}
+    .pain-block{padding:24px 22px}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 18 18" fill="none">
+        <rect x="2" y="3" width="7" height="1.5" rx=".75" fill="#3A6BCC"/>
+        <rect x="2" y="3" width="1.5" height="12" rx=".75" fill="#3A6BCC"/>
+        <rect x="2" y="8.5" width="5" height="1.5" rx=".75" fill="#3A6BCC"/>
+      </svg>
+      <div class="logo-check">
+        <svg viewBox="0 0 7 7" fill="none">
+          <path d="M1 3.5L2.8 5.3L6 1.5" stroke="#0A0E1A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <span class="logo-text">Fin<span>Cert</span></span>
+  </a>
+  <a href="https://cpa-anbima.github.io/cpademo-8872" target="_blank" class="nav-cta">Testar grátis</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="eyebrow">Ferramenta CPA ANBIMA 2026</p>
+  <h1 class="hero-title">
+    Você não tem tempo<br>
+    pra <span class="hl">estudar errado.</span>
+  </h1>
+  <p class="hero-sub">
+    10 minutos com a ferramenta certa valem mais que 3 horas de videoaula.<br>
+    <strong>O Tutor CPA leva qualquer pessoa do ponto em que está até a aprovação, o domínio e a segurança para exercer o cargo.</strong>
+  </p>
+
+  <!-- BLOCO DOR -->
+  <div class="pain-block">
+    <p class="pain-line">Se você já tentou estudar pela apostila e travou na página 40...</p>
+    <p class="pain-line">Se você já assistiu videoaula e não conseguiu encaixar na rotina...</p>
+    <p class="pain-line">Se você tem prazo, pressão e ainda não sabe por onde começar...</p>
+    <p class="pain-conclusion">O problema não é você. É o material.<br>O Tutor foi feito para resolver exatamente isso.</p>
+  </div>
+
+  <!-- VSL -->
+  <div class="vsl-wrap">
+    <div class="vsl-frame" id="vsl" onclick="playVSL()">
+      <div class="vsl-dots"></div>
+      <div class="vsl-overlay" id="vsl-overlay">
+        <button class="vsl-play" aria-label="Assistir apresentação">
+          <svg viewBox="0 0 24 24" fill="white"><path d="M8 5.14v14l11-7-11-7z"/></svg>
+        </button>
+        <span class="vsl-label">Veja como funciona o Tutor — 3 minutos</span>
+      </div>
+      <span class="vsl-duration">~ 3 min</span>
+    </div>
+  </div>
+  <p class="vsl-note">Assista 3 minutos. Se não fizer sentido, a demo é grátis e você decide depois.</p>
+
+  <div class="price-bar">
+    <span class="price-tag">R$97</span>
+    <span class="price-vs">vs</span>
+    <span class="price-strike">R$225</span>
+    <span class="price-note">taxa de reprovação ANBIMA — reprovar custa mais</span>
+  </div>
+
+  <div class="bullets">
+    <div class="bullet-item"><span class="bullet-dot"></span>Abre direto no celular</div>
+    <div class="bullet-item"><span class="bullet-dot"></span>Sem cadastro · sem instalação</div>
+    <div class="bullet-item"><span class="bullet-dot"></span>4 módulos · 25 tópicos</div>
+    <div class="bullet-item"><span class="bullet-dot"></span>Menos de uma semana para estar pronto</div>
+  </div>
+</div>
+
+<!-- PARA QUEM -->
+<section>
+  <p class="section-eyebrow">Para quem é</p>
+  <h2 class="section-title">O Tutor não foi feito para um perfil específico.<br>Foi feito para levar qualquer pessoa até o mesmo lugar.</h2>
+  <p class="section-sub">Aprovada. Com domínio. Pronta para exercer o cargo com segurança.</p>
+
+  <div class="forwhom-grid">
+    <div class="forwhom-card">
+      <div class="fw-icon">
+        <svg viewBox="0 0 20 20" fill="none" stroke="#3A6BCC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="10" cy="10" r="8"/>
+          <path d="M10 6v4l3 2"/>
+        </svg>
+      </div>
+      <div class="fw-title">Você tem prazo e pouco tempo</div>
+      <div class="fw-desc">Estuda quando pode — no intervalo, no transporte, nos 10 minutos que aparecem no meio do dia. Precisa de uma ferramenta que respeite isso, não de mais uma videoaula de 2 horas pra assistir no fim de semana.</div>
+    </div>
+    <div class="forwhom-card">
+      <div class="fw-icon">
+        <svg viewBox="0 0 20 20" fill="none" stroke="#3A6BCC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 2l2.4 5 5.6.8-4 4 .9 5.5L10 14.5 5.1 17.3 6 11.8 2 7.8l5.6-.8z"/>
+        </svg>
+      </div>
+      <div class="fw-title">Você quer mais do que passar</div>
+      <div class="fw-desc">Aprovação é o mínimo. O que você quer é sentar na frente do cliente e saber exatamente o que está falando — sem travar, sem depender de script, sem medo de pergunta.</div>
+    </div>
+    <div class="forwhom-card">
+      <div class="fw-icon">
+        <svg viewBox="0 0 20 20" fill="none" stroke="#3A6BCC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h12v8a4 4 0 01-4 4H8a4 4 0 01-4-4V4z"/>
+          <path d="M8 4V2M12 4V2"/>
+        </svg>
+      </div>
+      <div class="fw-title">Você está começando do zero</div>
+      <div class="fw-desc">O Tutor não pressupõe nada. Cada sigla é explicada antes de ser usada. Cada conceito tem analogia com o dia a dia. O ponto de partida não importa — o destino é o mesmo: domínio e aprovação.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="alt" id="demos">
+  <p class="section-eyebrow">Experimente agora</p>
+  <h2 class="section-title">Não acredite. Teste.</h2>
+  <p class="section-sub">A demo é grátis, abre no celular agora e não pede cadastro.<br>Você experimenta antes de decidir qualquer coisa.</p>
+
+  <div class="demo-grid">
+    <a href="https://cpa-anbima.github.io/cpademo-8872" target="_blank" class="demo-card tutor">
+      <div class="demo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#3A6BCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="3"/>
+          <path d="M7 8h5M7 12h4M7 16h6"/>
+        </svg>
+      </div>
+      <div>
+        <div class="demo-card-title">Demo — Tutor de Conteúdo</div>
+        <div class="demo-card-desc">
+          Explore os módulos, veja as analogias, leia os exemplos com cálculo real. CDI, CDB, fundos, previdência — cada conceito explicado do ponto de partida até o que cai na prova e como aplicar no atendimento ao cliente.
+        </div>
+      </div>
+      <div class="demo-bonus">
+        <svg viewBox="0 0 12 12" fill="none" stroke="#1DB87A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 6l3 3 5-5"/>
+        </svg>
+        Bônus: quiz com 73 questões oficiais ANBIMA comentadas
+      </div>
+      <div class="demo-cta">
+        Abrir demo do Tutor
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 8h10M9 4l4 4-4 4"/>
+        </svg>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- JÁ TEM CURSO -->
+<section>
+  <p class="section-eyebrow">Já tem curso ou apostila?</p>
+  <h2 class="section-title">O Tutor faz o que eles não fazem.</h2>
+  <p class="section-sub">Você não precisa abandonar o que já comprou. O Tutor é o que faltava.</p>
+
+  <div class="already-box">
+    <div class="already-title">Já investiu em um curso ou apostila? Ótimo ponto de partida.</div>
+    <p class="already-text">
+      O Tutor não veio substituir o que você tem. Veio fazer o que nenhum curso faz bem: <strong>transformar conteúdo visto em conhecimento fixado.</strong>
+    </p>
+    <p class="already-text">
+      Use junto com o seu material atual — como ferramenta de revisão ativa, fixação de conceitos e treino com questões reais. Em vez de reler 300 páginas, você abre no celular, revisa o conceito que ficou solto e refaz a questão que errou.
+    </p>
+    <p class="already-text">
+      <strong>É a diferença entre ter assistido uma aula de natação e saber nadar de verdade.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- NÚMEROS -->
+<section class="alt">
+  <p class="section-eyebrow">O que está dentro</p>
+  <h2 class="section-title">Tudo que você precisa.<br>Nada que você não precisa.</h2>
+  <div class="proof-grid" style="margin-top:48px">
+    <div class="proof-item">
+      <div class="proof-num">25<span>+</span></div>
+      <div class="proof-label">tópicos com analogia e exemplo em reais</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">4</div>
+      <div class="proof-label">módulos calibrados pelo peso real da prova</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">73<span>+</span></div>
+      <div class="proof-label">questões oficiais ANBIMA com gabarito comentado</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">60<span>+</span></div>
+      <div class="proof-label">siglas no glossário com explicação clara</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">&lt;7<span>d</span></div>
+      <div class="proof-label">dias para estar pronto — estudando quando pode</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">R$97</div>
+      <div class="proof-label">menos que reprovar e pagar a taxa de novo</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section>
+  <p class="section-eyebrow">Comece agora</p>
+  <h2 class="final-title">Teste grátis.<br><span class="hl">Compre só se gostar.</span></h2>
+  <p class="final-sub">Acesse a demo sem cadastro e veja o Tutor funcionando. Se em 10 minutos você não entender mais do que estudou no último mês — não compra.</p>
+  <div class="btn-group">
+    <a href="https://cpa-anbima.github.io/cpademo-8872" target="_blank" class="btn-primary">
+      <svg viewBox="0 0 18 18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="14" height="14" rx="3"/>
+        <path d="M6 7h3M6 10h5"/>
+      </svg>
+      Abrir demo do Tutor
+    </a>
+  </div>
+  <p class="final-note">
+    Sem cadastro · Sem cartão de crédito · Abre agora no celular<br>
+    <strong>O Tutor completo é R$97. A taxa de reprovação da ANBIMA é R$225. Você escolhe.</strong>
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-brand">Fin<span>Cert</span></span>
+  <span class="footer-note">Ferramenta de preparação CPA ANBIMA · @fincert.cpa</span>
+</footer>
+
+<script>
+function playVSL(){
+  const o=document.getElementById('vsl-overlay');
+  o.innerHTML='<p style="color:var(--muted);font-size:13px;text-align:center;padding:20px;line-height:1.7">Vídeo em produção.<br>Em breve aqui.<br><br><a href=\"https://cpa-anbima.github.io/cpademo-8872\" target=\"_blank\" style=\"color:var(--blue);font-weight:600;text-decoration:none\">→ Ir direto para a demo</a></p>';
+}
+</script>
+</body>
+</html>
